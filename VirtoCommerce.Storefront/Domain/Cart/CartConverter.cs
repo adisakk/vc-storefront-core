@@ -622,6 +622,7 @@ namespace VirtoCommerce.Storefront.Domain
         {
             var result = new LineItem(product.Price.Currency, language)
             {
+                ProductOwner = product.CreatedBy,
                 CatalogId = product.CatalogId,
                 CategoryId = product.CategoryId,
                 Name = product.Name,
@@ -653,6 +654,7 @@ namespace VirtoCommerce.Storefront.Domain
         {
             var result = new LineItem(currency, language)
             {
+                ProductOwner = lineItemDto.ProductOwner,
                 Id = lineItemDto.Id,
                 CatalogId = lineItemDto.CatalogId,
                 CategoryId = lineItemDto.CategoryId,
@@ -725,6 +727,7 @@ namespace VirtoCommerce.Storefront.Domain
         {
             var retVal = new cartDto.LineItem
             {
+                ProductOwner = lineItem.ProductOwner,
                 Id = lineItem.Id,
                 CatalogId = lineItem.CatalogId,
                 CategoryId = lineItem.CategoryId,

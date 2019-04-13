@@ -37,6 +37,11 @@ namespace VirtoCommerce.Storefront.Model.Cart
         }
 
         /// <summary>
+        /// Gets or sets line item owner
+        /// </summary>
+        public string ProductOwner { get; set; }
+
+        /// <summary>
         /// Gets or sets line item created date
         /// </summary>
         public DateTime CreatedDate { get; set; }

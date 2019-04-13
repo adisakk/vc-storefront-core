@@ -299,6 +299,7 @@ namespace VirtoCommerce.Storefront.Domain
             var result = new Product(currentCurrency, currentLanguage)
             {
                 Id = productDto.Id,
+                CreatedBy = productDto.CreatedBy,
                 CatalogId = productDto.CatalogId,
                 CategoryId = productDto.CategoryId,
                 DownloadExpiration = productDto.DownloadExpiration,

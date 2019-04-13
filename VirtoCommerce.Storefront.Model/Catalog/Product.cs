@@ -31,6 +31,11 @@ namespace VirtoCommerce.Storefront.Model.Catalog
         }
 
         /// <summary>
+        /// Product owner
+        /// </summary>
+        public string CreatedBy { get; set; }
+
+        /// <summary>
         /// Manufacturer part number for this product
         /// </summary>
         public string ManufacturerPartNumber { get; set; }
