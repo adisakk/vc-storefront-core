@@ -168,6 +168,15 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             return File(stream, "application/pdf");
         }
 
+        // GET: storefrontapi/orders/{orderNumber}/invoice
+        [HttpGet("{orderNumber}/digitalcontent")]
+        public async Task<ActionResult> GetDigitalContent(string orderNumber)
+        {
+            var stream = await _orderApi.GetDigitalContentAsync(orderNumber);
+
+            return File(stream, "application/pdf");
+        }
+
         private async Task<CustomerOrder> GetOrderByNumber(string number)
         {
             var order = await GetOrderDtoByNumber(number);
