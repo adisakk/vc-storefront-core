@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using VirtoCommerce.Storefront.AutoRestClients.OrdersModuleApi;
 using VirtoCommerce.Storefront.AutoRestClients.StoreModuleApi;
 using VirtoCommerce.Storefront.Domain;
@@ -45,6 +46,17 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             {
                 Results = result.CustomerOrders.Select(x => x.ToCustomerOrder(WorkContext.AllCurrencies, WorkContext.CurrentLanguage)),
                 result.TotalCount
+            });
+        }
+
+        // GET: storefrontapi/orders/{orderNumber}/group
+        [HttpGet("{orderNumber}/group")]
+        public async Task<ActionResult> GetCustomerOrderGroup(string orderNumber)
+        {
+            var retVal = await GetOrderGroupByNumber(orderNumber);
+            return Json(new
+            {
+                Results = retVal.ToArray()
             });
         }
 
@@ -177,12 +189,48 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             return File(stream, "application/pdf");
         }
 
+        private async Task<IList<CustomerOrder>> GetOrderGroupByNumber(string number)
+        {
+            var orders = await GetOrderDtoGroupByNumber(number);
+            WorkContext.CurrentOrders = new List<CustomerOrder>();
+            int c = 0;
+            foreach (var order in orders)
+            {
+                WorkContext.CurrentOrders.Add(order.ToCustomerOrder(WorkContext.AllCurrencies, WorkContext.CurrentLanguage));
+            }
+
+            return WorkContext.CurrentOrders;
+        }
+
         private async Task<CustomerOrder> GetOrderByNumber(string number)
         {
             var order = await GetOrderDtoByNumber(number);
 
             WorkContext.CurrentOrder = order.ToCustomerOrder(WorkContext.AllCurrencies, WorkContext.CurrentLanguage);
             return WorkContext.CurrentOrder;
+        }
+
+        private async Task<IList<orderModel.CustomerOrder>> GetOrderDtoGroupByNumber(string number)
+        {
+            var orders = await _orderApi.GetGroupByNumberAsync(number);
+
+            if (orders == null)
+            {
+                throw new StorefrontException($"Order with number {{ number }} not found (or not belongs to current user)");
+            }
+            else
+            {
+                int c = 0;
+                foreach (var order in orders)
+                {
+                    if (order.CustomerId != WorkContext.CurrentUser.Id)
+                    {
+                        throw new StorefrontException($"Order with number {{ number }} not found (or not belongs to current user)");
+                    }
+                }
+            }
+            
+            return orders;
         }
 
         private async Task<orderModel.CustomerOrder> GetOrderDtoByNumber(string number)

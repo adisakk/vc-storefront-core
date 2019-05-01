@@ -181,6 +181,8 @@ namespace VirtoCommerce.Storefront.Model
 
         public IList<Country> AllCountries { get; set; }
 
+        public IList<CustomerOrder> CurrentOrders { get; set; }
+
         public CustomerOrder CurrentOrder { get; set; }
 
 
