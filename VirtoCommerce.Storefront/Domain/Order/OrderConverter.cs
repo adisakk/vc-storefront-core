@@ -198,7 +198,8 @@ namespace VirtoCommerce.Storefront.Domain
                 CreatedBy = lineItemDto.CreatedBy,
                 CreatedDate = lineItemDto.CreatedDate,
                 ModifiedDate = lineItemDto.ModifiedDate,
-                ModifiedBy = lineItemDto.ModifiedBy
+                ModifiedBy = lineItemDto.ModifiedBy,
+                ProductType = lineItemDto.ProductType
             };
 
 

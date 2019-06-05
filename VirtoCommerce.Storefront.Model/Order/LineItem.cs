@@ -157,6 +157,18 @@ namespace VirtoCommerce.Storefront.Model.Order
         public string ObjectType { get; set; }
 
         /// <summary>
+        /// Used for identify product type {Physical, Digital}
+        /// </summary>
+        /// <value>Used for dynamic properties management, contains object type string</value>
+        public string ProductType { get; set; }
+
+        /// <summary>
+        /// Used for customer download digital content
+        /// </summary>
+        /// <value>Used for dynamic properties management, contains object type string</value>
+        public IList<Catalog.Asset> Assets { get; set; }
+
+        /// <summary>
         /// Dynamic properties collections
         /// </summary>
         /// <value>Dynamic properties collections</value>
