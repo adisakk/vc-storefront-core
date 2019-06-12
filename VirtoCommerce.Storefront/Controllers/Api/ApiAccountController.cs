@@ -421,6 +421,17 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             return new PasswordChangeResult { Succeeded = result.Succeeded, Errors = result.Errors.Select(x => x.Description) };
         }
 
+        // POST: storefrontapi/account/checkpassword
+        [HttpPost("checkpassword")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<PasswordCheckResult>> CheckPassword([FromBody] CheckPassword checkPassword)
+        {
+            var user = await _userManager.FindByIdAsync(WorkContext.CurrentUser.Id);
+            var result = await _userManager.CheckPasswordAsync(user, checkPassword.CurrentPassword);
+
+            return new PasswordCheckResult { IsValid = result};
+        }
+
         // POST: storefrontapi/account/addresses
         [HttpPost("addresses")]
         [ValidateAntiForgeryToken]
