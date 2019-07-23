@@ -4336,10 +4336,17 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the DynamicPropertyObjectValue class.
         /// </summary>
-        public DynamicPropertyObjectValue(string locale = default(string), object value = default(object))
+        /// <param name="valueType">Possible values include: 'Undefined',
+        /// 'ShortText', 'LongText', 'Integer', 'Decimal', 'DateTime',
+        /// 'Boolean', 'Html', 'Image'</param>
+        public DynamicPropertyObjectValue(string objectType = default(string), string objectId = default(string), string locale = default(string), object value = default(object), string valueId = default(string), string valueType = default(string))
         {
+            ObjectType = objectType;
+            ObjectId = objectId;
             Locale = locale;
             Value = value;
+            ValueId = valueId;
+            ValueType = valueType;
             CustomInit();
         }
 
@@ -4350,6 +4357,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
 
         /// <summary>
         /// </summary>
+        [JsonProperty(PropertyName = "objectType")]
+        public string ObjectType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "objectId")]
+        public string ObjectId { get; set; }
+
+        /// <summary>
+        /// </summary>
         [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
 
@@ -4357,6 +4374,19 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public object Value { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "valueId")]
+        public string ValueId { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Undefined', 'ShortText',
+        /// 'LongText', 'Integer', 'Decimal', 'DateTime', 'Boolean', 'Html',
+        /// 'Image'
+        /// </summary>
+        [JsonProperty(PropertyName = "valueType")]
+        public string ValueType { get; set; }
 
     }
 }

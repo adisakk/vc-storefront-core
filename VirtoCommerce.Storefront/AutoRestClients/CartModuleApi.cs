@@ -7371,10 +7371,17 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the DynamicPropertyObjectValue class.
         /// </summary>
-        public DynamicPropertyObjectValue(string locale = default(string), object value = default(object))
+        /// <param name="valueType">Possible values include: 'Undefined',
+        /// 'ShortText', 'LongText', 'Integer', 'Decimal', 'DateTime',
+        /// 'Boolean', 'Html', 'Image'</param>
+        public DynamicPropertyObjectValue(string objectType = default(string), string objectId = default(string), string locale = default(string), object value = default(object), string valueId = default(string), string valueType = default(string))
         {
+            ObjectType = objectType;
+            ObjectId = objectId;
             Locale = locale;
             Value = value;
+            ValueId = valueId;
+            ValueType = valueType;
             CustomInit();
         }
 
@@ -7385,6 +7392,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
 
         /// <summary>
         /// </summary>
+        [JsonProperty(PropertyName = "objectType")]
+        public string ObjectType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "objectId")]
+        public string ObjectId { get; set; }
+
+        /// <summary>
+        /// </summary>
         [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
 
@@ -7392,6 +7409,19 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public object Value { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "valueId")]
+        public string ValueId { get; set; }
+
+        /// <summary>
+        /// Gets or sets possible values include: 'Undefined', 'ShortText',
+        /// 'LongText', 'Integer', 'Decimal', 'DateTime', 'Boolean', 'Html',
+        /// 'Image'
+        /// </summary>
+        [JsonProperty(PropertyName = "valueType")]
+        public string ValueType { get; set; }
 
     }
 }
@@ -7635,7 +7665,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the LineItem class.
         /// </summary>
-        public LineItem(string productId = default(string), CatalogProduct product = default(CatalogProduct), string catalogId = default(string), string categoryId = default(string), string sku = default(string), string productType = default(string), string name = default(string), int? quantity = default(int?), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string fulfillmentLocationCode = default(string), string shipmentMethodCode = default(string), bool? requiredShipping = default(bool?), string thumbnailImageUrl = default(string), string imageUrl = default(string), bool? isGift = default(bool?), string currency = default(string), string languageCode = default(string), string note = default(string), bool? isReccuring = default(bool?), bool? taxIncluded = default(bool?), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), string validationType = default(string), bool? isReadOnly = default(bool?), string priceId = default(string), Price price = default(Price), double? listPrice = default(double?), double? listPriceWithTax = default(double?), double? salePrice = default(double?), double? salePriceWithTax = default(double?), double? placedPrice = default(double?), double? placedPriceWithTax = default(double?), double? extendedPrice = default(double?), double? extendedPriceWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string productOwner = default(string), IList<Discount> discounts = default(IList<Discount>), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public LineItem(string productId = default(string), CatalogProduct product = default(CatalogProduct), string catalogId = default(string), string categoryId = default(string), string sku = default(string), string productType = default(string), string name = default(string), int? quantity = default(int?), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string fulfillmentLocationCode = default(string), string shipmentMethodCode = default(string), bool? requiredShipping = default(bool?), string thumbnailImageUrl = default(string), string imageUrl = default(string), bool? isGift = default(bool?), string currency = default(string), string languageCode = default(string), string note = default(string), bool? isReccuring = default(bool?), bool? taxIncluded = default(bool?), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), string validationType = default(string), bool? isReadOnly = default(bool?), string priceId = default(string), Price price = default(Price), double? listPrice = default(double?), double? listPriceWithTax = default(double?), double? salePrice = default(double?), double? salePriceWithTax = default(double?), double? placedPrice = default(double?), double? placedPriceWithTax = default(double?), double? extendedPrice = default(double?), double? extendedPriceWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), IList<Discount> discounts = default(IList<Discount>), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             ProductId = productId;
             Product = product;
@@ -7683,7 +7713,6 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
             DiscountTotalWithTax = discountTotalWithTax;
             Fee = fee;
             FeeWithTax = feeWithTax;
-            ProductOwner = productOwner;
             Discounts = discounts;
             TaxType = taxType;
             TaxTotal = taxTotal;
@@ -7933,11 +7962,6 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "feeWithTax")]
         public double? FeeWithTax { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "productOwner")]
-        public string ProductOwner { get; set; }
 
         /// <summary>
         /// </summary>
@@ -8313,10 +8337,8 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Shipment class.
         /// </summary>
-        public Shipment(System.DateTime? pickupDate = default(System.DateTime?), string trackingNumber = default(string), string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string warehouseLocation = default(string), string currency = default(string), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), Address deliveryAddress = default(Address), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<Discount> discounts = default(IList<Discount>), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), string id = default(string))
+        public Shipment(string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string warehouseLocation = default(string), string currency = default(string), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), Address deliveryAddress = default(Address), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<Discount> discounts = default(IList<Discount>), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), string id = default(string))
         {
-            PickupDate = pickupDate;
-            TrackingNumber = trackingNumber;
             ShipmentMethodCode = shipmentMethodCode;
             ShipmentMethodOption = shipmentMethodOption;
             FulfillmentCenterId = fulfillmentCenterId;
@@ -8355,16 +8377,6 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "pickupDate")]
-        public System.DateTime? PickupDate { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "trackingNumber")]
-        public string TrackingNumber { get; set; }
 
         /// <summary>
         /// </summary>
