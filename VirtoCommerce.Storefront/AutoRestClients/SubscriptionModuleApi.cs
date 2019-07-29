@@ -4238,15 +4238,15 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the IOperation class.
         /// </summary>
-        public IOperation(string operationType = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), string parentOperationId = default(string), IList<IOperation> childrenOperations = default(IList<IOperation>), string id = default(string))
+        public IOperation(string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), IList<IOperation> childrenOperations = default(IList<IOperation>), string id = default(string))
         {
             OperationType = operationType;
+            ParentOperationId = parentOperationId;
             Number = number;
             IsApproved = isApproved;
             Status = status;
             Comment = comment;
             Currency = currency;
-            ParentOperationId = parentOperationId;
             ChildrenOperations = childrenOperations;
             Id = id;
             CustomInit();
@@ -4261,6 +4261,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "operationType")]
         public string OperationType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "parentOperationId")]
+        public string ParentOperationId { get; set; }
 
         /// <summary>
         /// </summary>
@@ -4286,11 +4291,6 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "currency")]
         public string Currency { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "parentOperationId")]
-        public string ParentOperationId { get; set; }
 
         /// <summary>
         /// </summary>
@@ -5737,7 +5737,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Category class.
         /// </summary>
-        public Category(string catalogId = default(string), Catalog catalog = default(Catalog), string parentId = default(string), string code = default(string), string taxType = default(string), string name = default(string), string path = default(string), bool? isVirtual = default(bool?), int? level = default(int?), IList<Category> parents = default(IList<Category>), string packageType = default(string), int? priority = default(int?), bool? isActive = default(bool?), IList<Category> children = default(IList<Category>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<CategoryLink> links = default(IList<CategoryLink>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Image> images = default(IList<Image>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Category(string catalogId = default(string), Catalog catalog = default(Catalog), string parentId = default(string), string code = default(string), string taxType = default(string), string name = default(string), string path = default(string), bool? isVirtual = default(bool?), int? level = default(int?), IList<Category> parents = default(IList<Category>), int? pendingApprovalCount = default(int?), int? rejectedCount = default(int?), string packageType = default(string), int? priority = default(int?), bool? isActive = default(bool?), IList<Category> children = default(IList<Category>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<CategoryLink> links = default(IList<CategoryLink>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Image> images = default(IList<Image>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             CatalogId = catalogId;
             Catalog = catalog;
@@ -5749,6 +5749,8 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
             IsVirtual = isVirtual;
             Level = level;
             Parents = parents;
+            PendingApprovalCount = pendingApprovalCount;
+            RejectedCount = rejectedCount;
             PackageType = packageType;
             Priority = priority;
             IsActive = isActive;
@@ -5822,6 +5824,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "parents")]
         public IList<Category> Parents { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
 
         /// <summary>
         /// </summary>
@@ -6182,7 +6194,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// 'GeoPoint'</param>
         /// <param name="type">Possible values include: 'Product', 'Variation',
         /// 'Category', 'Catalog'</param>
-        public Property(string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), IList<PropertyValidationRule> validationRules = default(IList<PropertyValidationRule>), bool? isInherited = default(bool?), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Property(string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), bool? hidden = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), IList<PropertyValidationRule> validationRules = default(IList<PropertyValidationRule>), bool? isInherited = default(bool?), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             CatalogId = catalogId;
             Catalog = catalog;
@@ -6193,6 +6205,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
             Dictionary = dictionary;
             Multivalue = multivalue;
             Multilanguage = multilanguage;
+            Hidden = hidden;
             ValueType = valueType;
             Type = type;
             Attributes = attributes;
@@ -6256,6 +6269,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "multilanguage")]
         public bool? Multilanguage { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "hidden")]
+        public bool? Hidden { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'ShortText', 'LongText',
@@ -6350,10 +6368,12 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Catalog class.
         /// </summary>
-        public Catalog(string name = default(string), bool? isVirtual = default(bool?), CatalogLanguage defaultLanguage = default(CatalogLanguage), IList<CatalogLanguage> languages = default(IList<CatalogLanguage>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), string id = default(string))
+        public Catalog(string name = default(string), bool? isVirtual = default(bool?), int? pendingApprovalCount = default(int?), int? rejectedCount = default(int?), CatalogLanguage defaultLanguage = default(CatalogLanguage), IList<CatalogLanguage> languages = default(IList<CatalogLanguage>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), string id = default(string))
         {
             Name = name;
             IsVirtual = isVirtual;
+            PendingApprovalCount = pendingApprovalCount;
+            RejectedCount = rejectedCount;
             DefaultLanguage = defaultLanguage;
             Languages = languages;
             Properties = properties;
@@ -6376,6 +6396,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "isVirtual")]
         public bool? IsVirtual { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
 
         /// <summary>
         /// </summary>
@@ -7560,7 +7590,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the CatalogProduct class.
         /// </summary>
-        public CatalogProduct(string code = default(string), string manufacturerPartNumber = default(string), string gtin = default(string), string name = default(string), string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string mainProductId = default(string), CatalogProduct mainProduct = default(CatalogProduct), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), System.DateTime? indexingDate = default(System.DateTime?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string packageType = default(string), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), int? priority = default(int?), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<CatalogProduct> variations = default(IList<CatalogProduct>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<Price> prices = default(IList<Price>), IList<InventoryInfo> inventories = default(IList<InventoryInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public CatalogProduct(string code = default(string), string manufacturerPartNumber = default(string), string gtin = default(string), string name = default(string), string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string mainProductId = default(string), CatalogProduct mainProduct = default(CatalogProduct), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), System.DateTime? indexingDate = default(System.DateTime?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string packageType = default(string), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), int? priority = default(int?), int? pendingApprovalCount = default(int?), bool? isApproved = default(bool?), bool? isRejected = default(bool?), bool? isPendingApproval = default(bool?), int? rejectedCount = default(int?), string rejectionReason = default(string), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<CatalogProduct> variations = default(IList<CatalogProduct>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<Price> prices = default(IList<Price>), IList<InventoryInfo> inventories = default(IList<InventoryInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             Code = code;
             ManufacturerPartNumber = manufacturerPartNumber;
@@ -7597,6 +7627,12 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
             StartDate = startDate;
             EndDate = endDate;
             Priority = priority;
+            PendingApprovalCount = pendingApprovalCount;
+            IsApproved = isApproved;
+            IsRejected = isRejected;
+            IsPendingApproval = isPendingApproval;
+            RejectedCount = rejectedCount;
+            RejectionReason = rejectionReason;
             Properties = properties;
             PropertyValues = propertyValues;
             Images = images;
@@ -7798,6 +7834,36 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "priority")]
         public int? Priority { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isApproved")]
+        public bool? IsApproved { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isRejected")]
+        public bool? IsRejected { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isPendingApproval")]
+        public bool? IsPendingApproval { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectionReason")]
+        public string RejectionReason { get; set; }
 
         /// <summary>
         /// </summary>
@@ -8608,7 +8674,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Shipment class.
         /// </summary>
-        public Shipment(string organizationId = default(string), string organizationName = default(string), System.DateTime? pickupDate = default(System.DateTime?), string trackingNumber = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string employeeId = default(string), string employeeName = default(string), string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), ShippingMethod shippingMethod = default(ShippingMethod), string customerOrderId = default(string), CustomerOrder customerOrder = default(CustomerOrder), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<ShipmentPackage> packages = default(IList<ShipmentPackage>), IList<PaymentIn> inPayments = default(IList<PaymentIn>), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), IList<Discount> discounts = default(IList<Discount>), Address deliveryAddress = default(Address), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), double? sum = default(double?), IList<IOperation> childrenOperations = default(IList<IOperation>), bool? isCancelled = default(bool?), System.DateTime? cancelledDate = default(System.DateTime?), string cancelReason = default(string), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), IList<OperationLog> operationsLog = default(IList<OperationLog>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Shipment(string organizationId = default(string), string organizationName = default(string), System.DateTime? pickupDate = default(System.DateTime?), string trackingNumber = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string employeeId = default(string), string employeeName = default(string), string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), ShippingMethod shippingMethod = default(ShippingMethod), string customerOrderId = default(string), CustomerOrder customerOrder = default(CustomerOrder), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<ShipmentPackage> packages = default(IList<ShipmentPackage>), IList<PaymentIn> inPayments = default(IList<PaymentIn>), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), IList<Discount> discounts = default(IList<Discount>), Address deliveryAddress = default(Address), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), double? averagePrice = default(double?), double? averagePriceWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), double? sum = default(double?), IList<IOperation> childrenOperations = default(IList<IOperation>), bool? isCancelled = default(bool?), System.DateTime? cancelledDate = default(System.DateTime?), string cancelReason = default(string), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), IList<OperationLog> operationsLog = default(IList<OperationLog>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             OrganizationId = organizationId;
             OrganizationName = organizationName;
@@ -8642,6 +8708,8 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
             DiscountAmountWithTax = discountAmountWithTax;
             Fee = fee;
             FeeWithTax = feeWithTax;
+            AveragePrice = averagePrice;
+            AveragePriceWithTax = averagePriceWithTax;
             TaxType = taxType;
             TaxTotal = taxTotal;
             TaxPercentRate = taxPercentRate;
@@ -8836,6 +8904,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
 
         /// <summary>
         /// </summary>
+        [JsonProperty(PropertyName = "averagePrice")]
+        public double? AveragePrice { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "averagePriceWithTax")]
+        public double? AveragePriceWithTax { get; set; }
+
+        /// <summary>
+        /// </summary>
         [JsonProperty(PropertyName = "taxType")]
         public string TaxType { get; set; }
 
@@ -8975,6 +9053,212 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
     using System.Threading;
     using System.Threading.Tasks;
 
+    public partial class SubOperation
+    {
+        /// <summary>
+        /// Initializes a new instance of the SubOperation class.
+        /// </summary>
+        public SubOperation()
+        {
+            CustomInit();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SubOperation class.
+        /// </summary>
+        public SubOperation(string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), double? sum = default(double?), string ownerName = default(string), int? itemCount = default(int?), double? subTotal = default(double?), double? subTotalDiscount = default(double?), double? subTotalTaxTotal = default(double?), double? paymentFees = default(double?), double? shippingTotal = default(double?), int? bpCount = default(int?), bool? isCancelled = default(bool?), System.DateTime? cancelledDate = default(System.DateTime?), string cancelReason = default(string), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), IList<OperationLog> operationsLog = default(IList<OperationLog>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        {
+            OperationType = operationType;
+            ParentOperationId = parentOperationId;
+            Number = number;
+            IsApproved = isApproved;
+            Status = status;
+            Comment = comment;
+            Currency = currency;
+            Sum = sum;
+            OwnerName = ownerName;
+            ItemCount = itemCount;
+            SubTotal = subTotal;
+            SubTotalDiscount = subTotalDiscount;
+            SubTotalTaxTotal = subTotalTaxTotal;
+            PaymentFees = paymentFees;
+            ShippingTotal = shippingTotal;
+            BpCount = bpCount;
+            IsCancelled = isCancelled;
+            CancelledDate = cancelledDate;
+            CancelReason = cancelReason;
+            ObjectType = objectType;
+            DynamicProperties = dynamicProperties;
+            OperationsLog = operationsLog;
+            CreatedDate = createdDate;
+            ModifiedDate = modifiedDate;
+            CreatedBy = createdBy;
+            ModifiedBy = modifiedBy;
+            Id = id;
+            CustomInit();
+        }
+
+        /// <summary>
+        /// An initialization method that performs custom operations like setting defaults
+        /// </summary>
+        partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "operationType")]
+        public string OperationType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "parentOperationId")]
+        public string ParentOperationId { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "number")]
+        public string Number { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isApproved")]
+        public bool? IsApproved { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "comment")]
+        public string Comment { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "currency")]
+        public string Currency { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "sum")]
+        public double? Sum { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "ownerName")]
+        public string OwnerName { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "itemCount")]
+        public int? ItemCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "subTotal")]
+        public double? SubTotal { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "subTotalDiscount")]
+        public double? SubTotalDiscount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "subTotalTaxTotal")]
+        public double? SubTotalTaxTotal { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "paymentFees")]
+        public double? PaymentFees { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "shippingTotal")]
+        public double? ShippingTotal { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "bpCount")]
+        public int? BpCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isCancelled")]
+        public bool? IsCancelled { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "cancelledDate")]
+        public System.DateTime? CancelledDate { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "cancelReason")]
+        public string CancelReason { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "objectType")]
+        public string ObjectType { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "dynamicProperties")]
+        public IList<DynamicObjectProperty> DynamicProperties { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "operationsLog")]
+        public IList<OperationLog> OperationsLog { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "createdDate")]
+        public System.DateTime? CreatedDate { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "modifiedDate")]
+        public System.DateTime? ModifiedDate { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "createdBy")]
+        public string CreatedBy { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "modifiedBy")]
+        public string ModifiedBy { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
+    }
+}
+// <auto-generated>
+// Code generated by Microsoft (R) AutoRest Code Generator.
+// Changes may cause incorrect behavior and will be lost if the code is
+// regenerated.
+// </auto-generated>
+
+namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
+{
+    using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
+    using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public partial class CustomerOrder
     {
         /// <summary>
@@ -8988,7 +9272,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the CustomerOrder class.
         /// </summary>
-        public CustomerOrder(string customerId = default(string), string customerName = default(string), string channelId = default(string), string storeId = default(string), string storeName = default(string), string organizationId = default(string), string organizationName = default(string), string employeeId = default(string), string employeeName = default(string), string outerId = default(string), string shoppingCartId = default(string), bool? isPrototype = default(bool?), string subscriptionNumber = default(string), string subscriptionId = default(string), IList<Address> addresses = default(IList<Address>), IList<PaymentIn> inPayments = default(IList<PaymentIn>), IList<LineItem> items = default(IList<LineItem>), IList<Shipment> shipments = default(IList<Shipment>), IList<Discount> discounts = default(IList<Discount>), double? discountAmount = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), IList<string> scopes = default(IList<string>), double? total = default(double?), double? subTotal = default(double?), double? subTotalWithTax = default(double?), double? subTotalDiscount = default(double?), double? subTotalDiscountWithTax = default(double?), double? subTotalTaxTotal = default(double?), double? shippingTotal = default(double?), double? shippingTotalWithTax = default(double?), double? shippingSubTotal = default(double?), double? shippingSubTotalWithTax = default(double?), double? shippingDiscountTotal = default(double?), double? shippingDiscountTotalWithTax = default(double?), double? shippingTaxTotal = default(double?), double? paymentTotal = default(double?), double? paymentTotalWithTax = default(double?), double? paymentSubTotal = default(double?), double? paymentSubTotalWithTax = default(double?), double? paymentDiscountTotal = default(double?), double? paymentDiscountTotalWithTax = default(double?), double? paymentTaxTotal = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), double? feeTotal = default(double?), double? feeTotalWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), string languageCode = default(string), string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), double? sum = default(double?), IList<IOperation> childrenOperations = default(IList<IOperation>), bool? isCancelled = default(bool?), System.DateTime? cancelledDate = default(System.DateTime?), string cancelReason = default(string), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), IList<OperationLog> operationsLog = default(IList<OperationLog>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public CustomerOrder(string customerId = default(string), string customerName = default(string), string channelId = default(string), string storeId = default(string), string storeName = default(string), string organizationId = default(string), string organizationName = default(string), string employeeId = default(string), string employeeName = default(string), string outerId = default(string), string shoppingCartId = default(string), bool? isPrototype = default(bool?), string subscriptionNumber = default(string), string subscriptionId = default(string), IList<Address> addresses = default(IList<Address>), IList<PaymentIn> inPayments = default(IList<PaymentIn>), IList<LineItem> items = default(IList<LineItem>), IList<Shipment> shipments = default(IList<Shipment>), IList<SubOperation> subOperations = default(IList<SubOperation>), IList<Discount> discounts = default(IList<Discount>), double? discountAmount = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), IList<string> scopes = default(IList<string>), double? total = default(double?), double? subTotal = default(double?), double? subTotalWithTax = default(double?), double? subTotalDiscount = default(double?), double? subTotalDiscountWithTax = default(double?), double? subTotalTaxTotal = default(double?), double? shippingTotal = default(double?), double? shippingTotalWithTax = default(double?), double? shippingSubTotal = default(double?), double? shippingSubTotalWithTax = default(double?), double? shippingDiscountTotal = default(double?), double? shippingDiscountTotalWithTax = default(double?), double? shippingTaxTotal = default(double?), double? paymentTotal = default(double?), double? paymentTotalWithTax = default(double?), double? paymentSubTotal = default(double?), double? paymentSubTotalWithTax = default(double?), double? paymentDiscountTotal = default(double?), double? paymentDiscountTotalWithTax = default(double?), double? paymentTaxTotal = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), double? feeTotal = default(double?), double? feeTotalWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), string languageCode = default(string), string operationType = default(string), string parentOperationId = default(string), string number = default(string), bool? isApproved = default(bool?), string status = default(string), string comment = default(string), string currency = default(string), double? sum = default(double?), IList<IOperation> childrenOperations = default(IList<IOperation>), bool? isCancelled = default(bool?), System.DateTime? cancelledDate = default(System.DateTime?), string cancelReason = default(string), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), IList<OperationLog> operationsLog = default(IList<OperationLog>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             CustomerId = customerId;
             CustomerName = customerName;
@@ -9008,6 +9292,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
             InPayments = inPayments;
             Items = items;
             Shipments = shipments;
+            SubOperations = subOperations;
             Discounts = discounts;
             DiscountAmount = discountAmount;
             TaxDetails = taxDetails;
@@ -9159,6 +9444,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.SubscriptionModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "shipments")]
         public IList<Shipment> Shipments { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "subOperations")]
+        public IList<SubOperation> SubOperations { get; set; }
 
         /// <summary>
         /// </summary>

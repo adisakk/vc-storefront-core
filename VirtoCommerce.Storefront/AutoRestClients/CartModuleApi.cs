@@ -5032,7 +5032,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Category class.
         /// </summary>
-        public Category(string catalogId = default(string), Catalog catalog = default(Catalog), string parentId = default(string), string code = default(string), string taxType = default(string), string name = default(string), string path = default(string), bool? isVirtual = default(bool?), int? level = default(int?), IList<Category> parents = default(IList<Category>), string packageType = default(string), int? priority = default(int?), bool? isActive = default(bool?), IList<Category> children = default(IList<Category>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<CategoryLink> links = default(IList<CategoryLink>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Image> images = default(IList<Image>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Category(string catalogId = default(string), Catalog catalog = default(Catalog), string parentId = default(string), string code = default(string), string taxType = default(string), string name = default(string), string path = default(string), bool? isVirtual = default(bool?), int? level = default(int?), IList<Category> parents = default(IList<Category>), int? pendingApprovalCount = default(int?), int? rejectedCount = default(int?), string packageType = default(string), int? priority = default(int?), bool? isActive = default(bool?), IList<Category> children = default(IList<Category>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<CategoryLink> links = default(IList<CategoryLink>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Image> images = default(IList<Image>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             CatalogId = catalogId;
             Catalog = catalog;
@@ -5044,6 +5044,8 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
             IsVirtual = isVirtual;
             Level = level;
             Parents = parents;
+            PendingApprovalCount = pendingApprovalCount;
+            RejectedCount = rejectedCount;
             PackageType = packageType;
             Priority = priority;
             IsActive = isActive;
@@ -5117,6 +5119,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "parents")]
         public IList<Category> Parents { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
 
         /// <summary>
         /// </summary>
@@ -5477,7 +5489,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// 'GeoPoint'</param>
         /// <param name="type">Possible values include: 'Product', 'Variation',
         /// 'Category', 'Catalog'</param>
-        public Property(string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), IList<PropertyValidationRule> validationRules = default(IList<PropertyValidationRule>), bool? isInherited = default(bool?), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Property(string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), bool? hidden = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), IList<PropertyValidationRule> validationRules = default(IList<PropertyValidationRule>), bool? isInherited = default(bool?), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             CatalogId = catalogId;
             Catalog = catalog;
@@ -5488,6 +5500,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
             Dictionary = dictionary;
             Multivalue = multivalue;
             Multilanguage = multilanguage;
+            Hidden = hidden;
             ValueType = valueType;
             Type = type;
             Attributes = attributes;
@@ -5551,6 +5564,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "multilanguage")]
         public bool? Multilanguage { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "hidden")]
+        public bool? Hidden { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'ShortText', 'LongText',
@@ -5645,10 +5663,12 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Catalog class.
         /// </summary>
-        public Catalog(string name = default(string), bool? isVirtual = default(bool?), CatalogLanguage defaultLanguage = default(CatalogLanguage), IList<CatalogLanguage> languages = default(IList<CatalogLanguage>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), string id = default(string))
+        public Catalog(string name = default(string), bool? isVirtual = default(bool?), int? pendingApprovalCount = default(int?), int? rejectedCount = default(int?), CatalogLanguage defaultLanguage = default(CatalogLanguage), IList<CatalogLanguage> languages = default(IList<CatalogLanguage>), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), string id = default(string))
         {
             Name = name;
             IsVirtual = isVirtual;
+            PendingApprovalCount = pendingApprovalCount;
+            RejectedCount = rejectedCount;
             DefaultLanguage = defaultLanguage;
             Languages = languages;
             Properties = properties;
@@ -5671,6 +5691,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "isVirtual")]
         public bool? IsVirtual { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
 
         /// <summary>
         /// </summary>
@@ -6855,7 +6885,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the CatalogProduct class.
         /// </summary>
-        public CatalogProduct(string code = default(string), string manufacturerPartNumber = default(string), string gtin = default(string), string name = default(string), string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string mainProductId = default(string), CatalogProduct mainProduct = default(CatalogProduct), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), System.DateTime? indexingDate = default(System.DateTime?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string packageType = default(string), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), int? priority = default(int?), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<CatalogProduct> variations = default(IList<CatalogProduct>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<Price> prices = default(IList<Price>), IList<InventoryInfo> inventories = default(IList<InventoryInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public CatalogProduct(string code = default(string), string manufacturerPartNumber = default(string), string gtin = default(string), string name = default(string), string catalogId = default(string), Catalog catalog = default(Catalog), string categoryId = default(string), Category category = default(Category), string mainProductId = default(string), CatalogProduct mainProduct = default(CatalogProduct), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), System.DateTime? indexingDate = default(System.DateTime?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string packageType = default(string), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), int? priority = default(int?), int? pendingApprovalCount = default(int?), bool? isApproved = default(bool?), bool? isRejected = default(bool?), bool? isPendingApproval = default(bool?), int? rejectedCount = default(int?), string rejectionReason = default(string), IList<Property> properties = default(IList<Property>), IList<PropertyValue> propertyValues = default(IList<PropertyValue>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<CatalogProduct> variations = default(IList<CatalogProduct>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<Price> prices = default(IList<Price>), IList<InventoryInfo> inventories = default(IList<InventoryInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             Code = code;
             ManufacturerPartNumber = manufacturerPartNumber;
@@ -6892,6 +6922,12 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
             StartDate = startDate;
             EndDate = endDate;
             Priority = priority;
+            PendingApprovalCount = pendingApprovalCount;
+            IsApproved = isApproved;
+            IsRejected = isRejected;
+            IsPendingApproval = isPendingApproval;
+            RejectedCount = rejectedCount;
+            RejectionReason = rejectionReason;
             Properties = properties;
             PropertyValues = propertyValues;
             Images = images;
@@ -7093,6 +7129,36 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "priority")]
         public int? Priority { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isApproved")]
+        public bool? IsApproved { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isRejected")]
+        public bool? IsRejected { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isPendingApproval")]
+        public bool? IsPendingApproval { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectionReason")]
+        public string RejectionReason { get; set; }
 
         /// <summary>
         /// </summary>
@@ -7665,7 +7731,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the LineItem class.
         /// </summary>
-        public LineItem(string productId = default(string), CatalogProduct product = default(CatalogProduct), string catalogId = default(string), string categoryId = default(string), string sku = default(string), string productType = default(string), string name = default(string), int? quantity = default(int?), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string fulfillmentLocationCode = default(string), string shipmentMethodCode = default(string), bool? requiredShipping = default(bool?), string thumbnailImageUrl = default(string), string imageUrl = default(string), bool? isGift = default(bool?), string currency = default(string), string languageCode = default(string), string note = default(string), bool? isReccuring = default(bool?), bool? taxIncluded = default(bool?), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), string validationType = default(string), bool? isReadOnly = default(bool?), string priceId = default(string), Price price = default(Price), double? listPrice = default(double?), double? listPriceWithTax = default(double?), double? salePrice = default(double?), double? salePriceWithTax = default(double?), double? placedPrice = default(double?), double? placedPriceWithTax = default(double?), double? extendedPrice = default(double?), double? extendedPriceWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), IList<Discount> discounts = default(IList<Discount>), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public LineItem(string productId = default(string), CatalogProduct product = default(CatalogProduct), string catalogId = default(string), string categoryId = default(string), string sku = default(string), string productType = default(string), string name = default(string), int? quantity = default(int?), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string fulfillmentLocationCode = default(string), string shipmentMethodCode = default(string), bool? requiredShipping = default(bool?), string thumbnailImageUrl = default(string), string imageUrl = default(string), bool? isGift = default(bool?), string currency = default(string), string languageCode = default(string), string note = default(string), bool? isReccuring = default(bool?), bool? taxIncluded = default(bool?), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), string validationType = default(string), bool? isReadOnly = default(bool?), string priceId = default(string), Price price = default(Price), double? listPrice = default(double?), double? listPriceWithTax = default(double?), double? salePrice = default(double?), double? salePriceWithTax = default(double?), double? placedPrice = default(double?), double? placedPriceWithTax = default(double?), double? extendedPrice = default(double?), double? extendedPriceWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? discountTotal = default(double?), double? discountTotalWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string productOwner = default(string), IList<Discount> discounts = default(IList<Discount>), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             ProductId = productId;
             Product = product;
@@ -7713,6 +7779,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
             DiscountTotalWithTax = discountTotalWithTax;
             Fee = fee;
             FeeWithTax = feeWithTax;
+            ProductOwner = productOwner;
             Discounts = discounts;
             TaxType = taxType;
             TaxTotal = taxTotal;
@@ -7962,6 +8029,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "feeWithTax")]
         public double? FeeWithTax { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "productOwner")]
+        public string ProductOwner { get; set; }
 
         /// <summary>
         /// </summary>
@@ -8337,8 +8409,10 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Shipment class.
         /// </summary>
-        public Shipment(string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string warehouseLocation = default(string), string currency = default(string), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), Address deliveryAddress = default(Address), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<Discount> discounts = default(IList<Discount>), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), string id = default(string))
+        public Shipment(System.DateTime? pickupDate = default(System.DateTime?), string trackingNumber = default(string), string shipmentMethodCode = default(string), string shipmentMethodOption = default(string), string fulfillmentCenterId = default(string), string fulfillmentCenterName = default(string), string warehouseLocation = default(string), string currency = default(string), double? volumetricWeight = default(double?), string weightUnit = default(string), double? weight = default(double?), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), double? price = default(double?), double? priceWithTax = default(double?), double? total = default(double?), double? totalWithTax = default(double?), double? discountAmount = default(double?), double? discountAmountWithTax = default(double?), double? fee = default(double?), double? feeWithTax = default(double?), string taxType = default(string), double? taxTotal = default(double?), double? taxPercentRate = default(double?), Address deliveryAddress = default(Address), IList<ShipmentItem> items = default(IList<ShipmentItem>), IList<Discount> discounts = default(IList<Discount>), IList<TaxDetail> taxDetails = default(IList<TaxDetail>), string objectType = default(string), IList<DynamicObjectProperty> dynamicProperties = default(IList<DynamicObjectProperty>), string id = default(string))
         {
+            PickupDate = pickupDate;
+            TrackingNumber = trackingNumber;
             ShipmentMethodCode = shipmentMethodCode;
             ShipmentMethodOption = shipmentMethodOption;
             FulfillmentCenterId = fulfillmentCenterId;
@@ -8377,6 +8451,16 @@ namespace VirtoCommerce.Storefront.AutoRestClients.CartModuleApi.Models
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pickupDate")]
+        public System.DateTime? PickupDate { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "trackingNumber")]
+        public string TrackingNumber { get; set; }
 
         /// <summary>
         /// </summary>

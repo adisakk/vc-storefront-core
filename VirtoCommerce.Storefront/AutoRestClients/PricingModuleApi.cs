@@ -3393,6 +3393,233 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi
         }
 
         /// <summary>
+        /// Delete pricelist assignments
+        /// </summary>
+        /// <remarks>
+        /// Delete pricelist assignments by given criteria.
+        /// </remarks>
+        /// <param name='criteriapriceListId'>
+        /// </param>
+        /// <param name='criteriapriceListIds'>
+        /// </param>
+        /// <param name='criteriakeyword'>
+        /// </param>
+        /// <param name='criteriaresponseGroup'>
+        /// </param>
+        /// <param name='criteriaobjectType'>
+        /// </param>
+        /// <param name='criteriaobjectTypes'>
+        /// </param>
+        /// <param name='criteriaobjectIds'>
+        /// </param>
+        /// <param name='criteriasearchPhrase'>
+        /// </param>
+        /// <param name='criterialanguageCode'>
+        /// </param>
+        /// <param name='criteriasort'>
+        /// </param>
+        /// <param name='criteriaskip'>
+        /// </param>
+        /// <param name='criteriatake'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// Headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        /// <return>
+        /// A response object containing the response body and response headers.
+        /// </return>
+        public async Task<HttpOperationResponse> DeleteFilteredAssignmentsWithHttpMessagesAsync(string criteriapriceListId = default(string), IList<string> criteriapriceListIds = default(IList<string>), string criteriakeyword = default(string), string criteriaresponseGroup = default(string), string criteriaobjectType = default(string), IList<string> criteriaobjectTypes = default(IList<string>), IList<string> criteriaobjectIds = default(IList<string>), string criteriasearchPhrase = default(string), string criterialanguageCode = default(string), string criteriasort = default(string), int? criteriaskip = default(int?), int? criteriatake = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Tracing
+            bool _shouldTrace = ServiceClientTracing.IsEnabled;
+            string _invocationId = null;
+            if (_shouldTrace)
+            {
+                _invocationId = ServiceClientTracing.NextInvocationId.ToString();
+                Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("criteriapriceListId", criteriapriceListId);
+                tracingParameters.Add("criteriapriceListIds", criteriapriceListIds);
+                tracingParameters.Add("criteriakeyword", criteriakeyword);
+                tracingParameters.Add("criteriaresponseGroup", criteriaresponseGroup);
+                tracingParameters.Add("criteriaobjectType", criteriaobjectType);
+                tracingParameters.Add("criteriaobjectTypes", criteriaobjectTypes);
+                tracingParameters.Add("criteriaobjectIds", criteriaobjectIds);
+                tracingParameters.Add("criteriasearchPhrase", criteriasearchPhrase);
+                tracingParameters.Add("criterialanguageCode", criterialanguageCode);
+                tracingParameters.Add("criteriasort", criteriasort);
+                tracingParameters.Add("criteriaskip", criteriaskip);
+                tracingParameters.Add("criteriatake", criteriatake);
+                tracingParameters.Add("cancellationToken", cancellationToken);
+                ServiceClientTracing.Enter(_invocationId, this, "DeleteFilteredAssignments", tracingParameters);
+            }
+            // Construct URL
+            var _baseUrl = Client.BaseUri.AbsoluteUri;
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/pricing/filteredAssignments").ToString();
+            List<string> _queryParameters = new List<string>();
+            if (criteriapriceListId != null)
+            {
+                _queryParameters.Add(string.Format("criteria.priceListId={0}", System.Uri.EscapeDataString(criteriapriceListId)));
+            }
+            if (criteriapriceListIds != null)
+            {
+                if (criteriapriceListIds.Count == 0)
+                {
+                    _queryParameters.Add(string.Format("criteria.priceListIds={0}", System.Uri.EscapeDataString(string.Empty)));
+                }
+                else
+                {
+                    foreach (var _item in criteriapriceListIds)
+                    {
+                        _queryParameters.Add(string.Format("criteria.priceListIds={0}", System.Uri.EscapeDataString("" + _item)));
+                    }
+                }
+            }
+            if (criteriakeyword != null)
+            {
+                _queryParameters.Add(string.Format("criteria.keyword={0}", System.Uri.EscapeDataString(criteriakeyword)));
+            }
+            if (criteriaresponseGroup != null)
+            {
+                _queryParameters.Add(string.Format("criteria.responseGroup={0}", System.Uri.EscapeDataString(criteriaresponseGroup)));
+            }
+            if (criteriaobjectType != null)
+            {
+                _queryParameters.Add(string.Format("criteria.objectType={0}", System.Uri.EscapeDataString(criteriaobjectType)));
+            }
+            if (criteriaobjectTypes != null)
+            {
+                if (criteriaobjectTypes.Count == 0)
+                {
+                    _queryParameters.Add(string.Format("criteria.objectTypes={0}", System.Uri.EscapeDataString(string.Empty)));
+                }
+                else
+                {
+                    foreach (var _item in criteriaobjectTypes)
+                    {
+                        _queryParameters.Add(string.Format("criteria.objectTypes={0}", System.Uri.EscapeDataString("" + _item)));
+                    }
+                }
+            }
+            if (criteriaobjectIds != null)
+            {
+                if (criteriaobjectIds.Count == 0)
+                {
+                    _queryParameters.Add(string.Format("criteria.objectIds={0}", System.Uri.EscapeDataString(string.Empty)));
+                }
+                else
+                {
+                    foreach (var _item in criteriaobjectIds)
+                    {
+                        _queryParameters.Add(string.Format("criteria.objectIds={0}", System.Uri.EscapeDataString("" + _item)));
+                    }
+                }
+            }
+            if (criteriasearchPhrase != null)
+            {
+                _queryParameters.Add(string.Format("criteria.searchPhrase={0}", System.Uri.EscapeDataString(criteriasearchPhrase)));
+            }
+            if (criterialanguageCode != null)
+            {
+                _queryParameters.Add(string.Format("criteria.languageCode={0}", System.Uri.EscapeDataString(criterialanguageCode)));
+            }
+            if (criteriasort != null)
+            {
+                _queryParameters.Add(string.Format("criteria.sort={0}", System.Uri.EscapeDataString(criteriasort)));
+            }
+            if (criteriaskip != null)
+            {
+                _queryParameters.Add(string.Format("criteria.skip={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(criteriaskip, Client.SerializationSettings).Trim('"'))));
+            }
+            if (criteriatake != null)
+            {
+                _queryParameters.Add(string.Format("criteria.take={0}", System.Uri.EscapeDataString(SafeJsonConvert.SerializeObject(criteriatake, Client.SerializationSettings).Trim('"'))));
+            }
+            if (_queryParameters.Count > 0)
+            {
+                _url += "?" + string.Join("&", _queryParameters);
+            }
+            // Create HTTP transport objects
+            var _httpRequest = new HttpRequestMessage();
+            HttpResponseMessage _httpResponse = null;
+            _httpRequest.Method = new HttpMethod("DELETE");
+            _httpRequest.RequestUri = new System.Uri(_url);
+            // Set Headers
+
+
+            if (customHeaders != null)
+            {
+                foreach(var _header in customHeaders)
+                {
+                    if (_httpRequest.Headers.Contains(_header.Key))
+                    {
+                        _httpRequest.Headers.Remove(_header.Key);
+                    }
+                    _httpRequest.Headers.TryAddWithoutValidation(_header.Key, _header.Value);
+                }
+            }
+
+            // Serialize Request
+            string _requestContent = null;
+            // Set Credentials
+            if (Client.Credentials != null)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                await Client.Credentials.ProcessHttpRequestAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            }
+            // Send Request
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.SendRequest(_invocationId, _httpRequest);
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            _httpResponse = await Client.HttpClient.SendAsync(_httpRequest, cancellationToken).ConfigureAwait(false);
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.ReceiveResponse(_invocationId, _httpResponse);
+            }
+            HttpStatusCode _statusCode = _httpResponse.StatusCode;
+            cancellationToken.ThrowIfCancellationRequested();
+            string _responseContent = null;
+            if ((int)_statusCode != 204)
+            {
+                var ex = new HttpOperationException(string.Format("Operation returned an invalid status code '{0}'", _statusCode));
+                if (_httpResponse.Content != null) {
+                    _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                }
+                else {
+                    _responseContent = string.Empty;
+                }
+                ex.Request = new HttpRequestMessageWrapper(_httpRequest, _requestContent);
+                ex.Response = new HttpResponseMessageWrapper(_httpResponse, _responseContent);
+                if (_shouldTrace)
+                {
+                    ServiceClientTracing.Error(_invocationId, ex);
+                }
+                _httpRequest.Dispose();
+                if (_httpResponse != null)
+                {
+                    _httpResponse.Dispose();
+                }
+                throw ex;
+            }
+            // Create Result
+            var _result = new HttpOperationResponse();
+            _result.Request = _httpRequest;
+            _result.Response = _httpResponse;
+            if (_shouldTrace)
+            {
+                ServiceClientTracing.Exit(_invocationId, _result);
+            }
+            return _result;
+        }
+
+        /// <summary>
         /// Delete all prices for specified product in specified price list
         /// </summary>
         /// <param name='pricelistId'>
@@ -4175,6 +4402,46 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi
         /// Thrown when a required parameter is null
         /// </exception>
         Task<HttpOperationResponse<Pricelist>> GetPriceListByIdWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// Delete pricelist assignments
+        /// </summary>
+        /// <remarks>
+        /// Delete pricelist assignments by given criteria.
+        /// </remarks>
+        /// <param name='criteriapriceListId'>
+        /// </param>
+        /// <param name='criteriapriceListIds'>
+        /// </param>
+        /// <param name='criteriakeyword'>
+        /// </param>
+        /// <param name='criteriaresponseGroup'>
+        /// </param>
+        /// <param name='criteriaobjectType'>
+        /// </param>
+        /// <param name='criteriaobjectTypes'>
+        /// </param>
+        /// <param name='criteriaobjectIds'>
+        /// </param>
+        /// <param name='criteriasearchPhrase'>
+        /// </param>
+        /// <param name='criterialanguageCode'>
+        /// </param>
+        /// <param name='criteriasort'>
+        /// </param>
+        /// <param name='criteriaskip'>
+        /// </param>
+        /// <param name='criteriatake'>
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        /// <exception cref="Microsoft.Rest.HttpOperationException">
+        /// Thrown when the operation returned an invalid status code
+        /// </exception>
+        Task<HttpOperationResponse> DeleteFilteredAssignmentsWithHttpMessagesAsync(string criteriapriceListId = default(string), IList<string> criteriapriceListIds = default(IList<string>), string criteriakeyword = default(string), string criteriaresponseGroup = default(string), string criteriaobjectType = default(string), IList<string> criteriaobjectTypes = default(IList<string>), IList<string> criteriaobjectIds = default(IList<string>), string criteriasearchPhrase = default(string), string criterialanguageCode = default(string), string criteriasort = default(string), int? criteriaskip = default(int?), int? criteriatake = default(int?), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Delete all prices for specified product in specified price list
         /// </summary>
@@ -5039,6 +5306,85 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi
                 {
                     return _result.Body;
                 }
+            }
+
+            /// <summary>
+            /// Delete pricelist assignments
+            /// </summary>
+            /// <remarks>
+            /// Delete pricelist assignments by given criteria.
+            /// </remarks>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='criteriapriceListId'>
+            /// </param>
+            /// <param name='criteriapriceListIds'>
+            /// </param>
+            /// <param name='criteriakeyword'>
+            /// </param>
+            /// <param name='criteriaresponseGroup'>
+            /// </param>
+            /// <param name='criteriaobjectType'>
+            /// </param>
+            /// <param name='criteriaobjectTypes'>
+            /// </param>
+            /// <param name='criteriaobjectIds'>
+            /// </param>
+            /// <param name='criteriasearchPhrase'>
+            /// </param>
+            /// <param name='criterialanguageCode'>
+            /// </param>
+            /// <param name='criteriasort'>
+            /// </param>
+            /// <param name='criteriaskip'>
+            /// </param>
+            /// <param name='criteriatake'>
+            /// </param>
+            public static void DeleteFilteredAssignments(this IPricingModule operations, string criteriapriceListId = default(string), IList<string> criteriapriceListIds = default(IList<string>), string criteriakeyword = default(string), string criteriaresponseGroup = default(string), string criteriaobjectType = default(string), IList<string> criteriaobjectTypes = default(IList<string>), IList<string> criteriaobjectIds = default(IList<string>), string criteriasearchPhrase = default(string), string criterialanguageCode = default(string), string criteriasort = default(string), int? criteriaskip = default(int?), int? criteriatake = default(int?))
+            {
+                operations.DeleteFilteredAssignmentsAsync(criteriapriceListId, criteriapriceListIds, criteriakeyword, criteriaresponseGroup, criteriaobjectType, criteriaobjectTypes, criteriaobjectIds, criteriasearchPhrase, criterialanguageCode, criteriasort, criteriaskip, criteriatake).GetAwaiter().GetResult();
+            }
+
+            /// <summary>
+            /// Delete pricelist assignments
+            /// </summary>
+            /// <remarks>
+            /// Delete pricelist assignments by given criteria.
+            /// </remarks>
+            /// <param name='operations'>
+            /// The operations group for this extension method.
+            /// </param>
+            /// <param name='criteriapriceListId'>
+            /// </param>
+            /// <param name='criteriapriceListIds'>
+            /// </param>
+            /// <param name='criteriakeyword'>
+            /// </param>
+            /// <param name='criteriaresponseGroup'>
+            /// </param>
+            /// <param name='criteriaobjectType'>
+            /// </param>
+            /// <param name='criteriaobjectTypes'>
+            /// </param>
+            /// <param name='criteriaobjectIds'>
+            /// </param>
+            /// <param name='criteriasearchPhrase'>
+            /// </param>
+            /// <param name='criterialanguageCode'>
+            /// </param>
+            /// <param name='criteriasort'>
+            /// </param>
+            /// <param name='criteriaskip'>
+            /// </param>
+            /// <param name='criteriatake'>
+            /// </param>
+            /// <param name='cancellationToken'>
+            /// The cancellation token.
+            /// </param>
+            public static async Task DeleteFilteredAssignmentsAsync(this IPricingModule operations, string criteriapriceListId = default(string), IList<string> criteriapriceListIds = default(IList<string>), string criteriakeyword = default(string), string criteriaresponseGroup = default(string), string criteriaobjectType = default(string), IList<string> criteriaobjectTypes = default(IList<string>), IList<string> criteriaobjectIds = default(IList<string>), string criteriasearchPhrase = default(string), string criterialanguageCode = default(string), string criteriasort = default(string), int? criteriaskip = default(int?), int? criteriatake = default(int?), CancellationToken cancellationToken = default(CancellationToken))
+            {
+                (await operations.DeleteFilteredAssignmentsWithHttpMessagesAsync(criteriapriceListId, criteriapriceListIds, criteriakeyword, criteriaresponseGroup, criteriaobjectType, criteriaobjectTypes, criteriaobjectIds, criteriasearchPhrase, criterialanguageCode, criteriasort, criteriaskip, criteriatake, null, cancellationToken).ConfigureAwait(false)).Dispose();
             }
 
             /// <summary>
@@ -6013,6 +6359,64 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
     using System.Threading;
     using System.Threading.Tasks;
 
+    public partial class PricingSearchResultPricelist
+    {
+        /// <summary>
+        /// Initializes a new instance of the PricingSearchResultPricelist
+        /// class.
+        /// </summary>
+        public PricingSearchResultPricelist()
+        {
+            CustomInit();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the PricingSearchResultPricelist
+        /// class.
+        /// </summary>
+        public PricingSearchResultPricelist(int? totalCount = default(int?), IList<Pricelist> results = default(IList<Pricelist>))
+        {
+            TotalCount = totalCount;
+            Results = results;
+            CustomInit();
+        }
+
+        /// <summary>
+        /// An initialization method that performs custom operations like setting defaults
+        /// </summary>
+        partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "totalCount")]
+        public int? TotalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "results")]
+        public IList<Pricelist> Results { get; set; }
+
+    }
+}
+// <auto-generated>
+// Code generated by Microsoft (R) AutoRest Code Generator.
+// Changes may cause incorrect behavior and will be lost if the code is
+// regenerated.
+// </auto-generated>
+
+namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
+{
+    using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
+    using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public partial class PricelistAssignmentsSearchCriteria
     {
         /// <summary>
@@ -6115,6 +6519,64 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "take")]
         public int? Take { get; set; }
+
+    }
+}
+// <auto-generated>
+// Code generated by Microsoft (R) AutoRest Code Generator.
+// Changes may cause incorrect behavior and will be lost if the code is
+// regenerated.
+// </auto-generated>
+
+namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
+{
+    using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
+    using Newtonsoft.Json;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public partial class PricingSearchResultPricelistAssignment
+    {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// PricingSearchResultPricelistAssignment class.
+        /// </summary>
+        public PricingSearchResultPricelistAssignment()
+        {
+            CustomInit();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// PricingSearchResultPricelistAssignment class.
+        /// </summary>
+        public PricingSearchResultPricelistAssignment(int? totalCount = default(int?), IList<PricelistAssignment> results = default(IList<PricelistAssignment>))
+        {
+            TotalCount = totalCount;
+            Results = results;
+            CustomInit();
+        }
+
+        /// <summary>
+        /// An initialization method that performs custom operations like setting defaults
+        /// </summary>
+        partial void CustomInit();
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "totalCount")]
+        public int? TotalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "results")]
+        public IList<PricelistAssignment> Results { get; set; }
 
     }
 }
@@ -6608,7 +7070,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
         /// 'GeoPoint'</param>
         /// <param name="type">Possible values include: 'Product', 'Variation',
         /// 'Category', 'Catalog'</param>
-        public Property(bool? isReadOnly = default(bool?), bool? isManageable = default(bool?), bool? isNew = default(bool?), string catalogId = default(string), string categoryId = default(string), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyValue> values = default(IList<PropertyValue>), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), PropertyValidationRule validationRule = default(PropertyValidationRule), bool? isInherited = default(bool?), string id = default(string))
+        public Property(bool? isReadOnly = default(bool?), bool? isManageable = default(bool?), bool? isNew = default(bool?), string catalogId = default(string), string categoryId = default(string), string name = default(string), bool? required = default(bool?), bool? dictionary = default(bool?), bool? multivalue = default(bool?), bool? multilanguage = default(bool?), bool? hidden = default(bool?), string valueType = default(string), string type = default(string), IList<PropertyValue> values = default(IList<PropertyValue>), IList<PropertyAttribute> attributes = default(IList<PropertyAttribute>), IList<PropertyDisplayName> displayNames = default(IList<PropertyDisplayName>), PropertyValidationRule validationRule = default(PropertyValidationRule), bool? isInherited = default(bool?), string id = default(string))
         {
             IsReadOnly = isReadOnly;
             IsManageable = isManageable;
@@ -6620,6 +7082,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
             Dictionary = dictionary;
             Multivalue = multivalue;
             Multilanguage = multilanguage;
+            Hidden = hidden;
             ValueType = valueType;
             Type = type;
             Values = values;
@@ -6685,6 +7148,11 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "multilanguage")]
         public bool? Multilanguage { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "hidden")]
+        public bool? Hidden { get; set; }
 
         /// <summary>
         /// Gets or sets possible values include: 'ShortText', 'LongText',
@@ -7470,7 +7938,7 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
         /// <summary>
         /// Initializes a new instance of the Product class.
         /// </summary>
-        public Product(string manufacturerPartNumber = default(string), string gtin = default(string), string code = default(string), string name = default(string), string catalogId = default(string), string categoryId = default(string), string outline = default(string), string path = default(string), System.DateTime? indexingDate = default(System.DateTime?), string titularItemId = default(string), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string weightUnit = default(string), double? weight = default(double?), string packageType = default(string), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), int? priority = default(int?), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), string imgSrc = default(string), IList<Property> properties = default(IList<Property>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<Product> variations = default(IList<Product>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<string> securityScopes = default(IList<string>), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
+        public Product(string manufacturerPartNumber = default(string), string gtin = default(string), string code = default(string), string name = default(string), string catalogId = default(string), string categoryId = default(string), string outline = default(string), string path = default(string), System.DateTime? indexingDate = default(System.DateTime?), string titularItemId = default(string), bool? isBuyable = default(bool?), bool? isActive = default(bool?), bool? trackInventory = default(bool?), int? maxQuantity = default(int?), int? minQuantity = default(int?), string productType = default(string), string weightUnit = default(string), double? weight = default(double?), string packageType = default(string), string measureUnit = default(string), double? height = default(double?), double? length = default(double?), double? width = default(double?), bool? enableReview = default(bool?), int? maxNumberOfDownload = default(int?), System.DateTime? downloadExpiration = default(System.DateTime?), string downloadType = default(string), bool? hasUserAgreement = default(bool?), string shippingType = default(string), string taxType = default(string), string vendor = default(string), int? priority = default(int?), System.DateTime? startDate = default(System.DateTime?), System.DateTime? endDate = default(System.DateTime?), string imgSrc = default(string), IList<Property> properties = default(IList<Property>), IList<Image> images = default(IList<Image>), IList<Asset> assets = default(IList<Asset>), IList<Product> variations = default(IList<Product>), IList<CategoryLink> links = default(IList<CategoryLink>), IList<EditorialReview> reviews = default(IList<EditorialReview>), IList<ProductAssociation> associations = default(IList<ProductAssociation>), IList<ProductAssociation> referencedAssociations = default(IList<ProductAssociation>), IList<string> securityScopes = default(IList<string>), bool? isPendingApproval = default(bool?), bool? isApproved = default(bool?), bool? isRejected = default(bool?), int? pendingApprovalCount = default(int?), int? rejectedCount = default(int?), string rejectionReason = default(string), string seoObjectType = default(string), IList<SeoInfo> seoInfos = default(IList<SeoInfo>), IList<Outline> outlines = default(IList<Outline>), System.DateTime? createdDate = default(System.DateTime?), System.DateTime? modifiedDate = default(System.DateTime?), string createdBy = default(string), string modifiedBy = default(string), string id = default(string))
         {
             ManufacturerPartNumber = manufacturerPartNumber;
             Gtin = gtin;
@@ -7516,6 +7984,12 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
             Associations = associations;
             ReferencedAssociations = referencedAssociations;
             SecurityScopes = securityScopes;
+            IsPendingApproval = isPendingApproval;
+            IsApproved = isApproved;
+            IsRejected = isRejected;
+            PendingApprovalCount = pendingApprovalCount;
+            RejectedCount = rejectedCount;
+            RejectionReason = rejectionReason;
             SeoObjectType = seoObjectType;
             SeoInfos = seoInfos;
             Outlines = outlines;
@@ -7754,6 +8228,36 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
 
         /// <summary>
         /// </summary>
+        [JsonProperty(PropertyName = "isPendingApproval")]
+        public bool? IsPendingApproval { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isApproved")]
+        public bool? IsApproved { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "isRejected")]
+        public bool? IsRejected { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "pendingApprovalCount")]
+        public int? PendingApprovalCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectedCount")]
+        public int? RejectedCount { get; set; }
+
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "rejectionReason")]
+        public string RejectionReason { get; set; }
+
+        /// <summary>
+        /// </summary>
         [JsonProperty(PropertyName = "seoObjectType")]
         public string SeoObjectType { get; private set; }
 
@@ -7858,122 +8362,6 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "prices")]
         public IList<Price> Prices { get; set; }
-
-    }
-}
-// <auto-generated>
-// Code generated by Microsoft (R) AutoRest Code Generator.
-// Changes may cause incorrect behavior and will be lost if the code is
-// regenerated.
-// </auto-generated>
-
-namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
-{
-    using Microsoft.Rest;
-    using Microsoft.Rest.Serialization;
-    using Newtonsoft.Json;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    public partial class PricingSearchResultPricelist
-    {
-        /// <summary>
-        /// Initializes a new instance of the PricingSearchResultPricelist
-        /// class.
-        /// </summary>
-        public PricingSearchResultPricelist()
-        {
-            CustomInit();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the PricingSearchResultPricelist
-        /// class.
-        /// </summary>
-        public PricingSearchResultPricelist(int? totalCount = default(int?), IList<Pricelist> results = default(IList<Pricelist>))
-        {
-            TotalCount = totalCount;
-            Results = results;
-            CustomInit();
-        }
-
-        /// <summary>
-        /// An initialization method that performs custom operations like setting defaults
-        /// </summary>
-        partial void CustomInit();
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "totalCount")]
-        public int? TotalCount { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "results")]
-        public IList<Pricelist> Results { get; set; }
-
-    }
-}
-// <auto-generated>
-// Code generated by Microsoft (R) AutoRest Code Generator.
-// Changes may cause incorrect behavior and will be lost if the code is
-// regenerated.
-// </auto-generated>
-
-namespace VirtoCommerce.Storefront.AutoRestClients.PricingModuleApi.Models
-{
-    using Microsoft.Rest;
-    using Microsoft.Rest.Serialization;
-    using Newtonsoft.Json;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    public partial class PricingSearchResultPricelistAssignment
-    {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// PricingSearchResultPricelistAssignment class.
-        /// </summary>
-        public PricingSearchResultPricelistAssignment()
-        {
-            CustomInit();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// PricingSearchResultPricelistAssignment class.
-        /// </summary>
-        public PricingSearchResultPricelistAssignment(int? totalCount = default(int?), IList<PricelistAssignment> results = default(IList<PricelistAssignment>))
-        {
-            TotalCount = totalCount;
-            Results = results;
-            CustomInit();
-        }
-
-        /// <summary>
-        /// An initialization method that performs custom operations like setting defaults
-        /// </summary>
-        partial void CustomInit();
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "totalCount")]
-        public int? TotalCount { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "results")]
-        public IList<PricelistAssignment> Results { get; set; }
 
     }
 }
