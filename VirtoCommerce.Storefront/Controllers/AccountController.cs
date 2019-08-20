@@ -31,6 +31,7 @@ namespace VirtoCommerce.Storefront.Controllers
         private readonly StorefrontOptions _options;
         private readonly INotifications _platformNotificationApi;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ISecurity _security;
 
         private readonly string[] _firstNameClaims = { ClaimTypes.GivenName, "urn:github:name", ClaimTypes.Name };
 
@@ -41,7 +42,8 @@ namespace VirtoCommerce.Storefront.Controllers
             IEventPublisher publisher,
             INotifications platformNotificationApi,
             IAuthorizationService authorizationService,
-            IOptions<StorefrontOptions> options)
+            IOptions<StorefrontOptions> options,
+            ISecurity security)
             : base(workContextAccessor, urlBuilder)
         {
             _signInManager = signInManager;
@@ -49,6 +51,7 @@ namespace VirtoCommerce.Storefront.Controllers
             _options = options.Value;
             _platformNotificationApi = platformNotificationApi;
             _authorizationService = authorizationService;
+            _security = security;
         }
 
         //GET: /account
@@ -99,7 +102,149 @@ namespace VirtoCommerce.Storefront.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            WorkContext.Form = Form.FromObject(new UserRegistration());
             return View("customers/register", WorkContext);
+        }
+
+        [HttpGet("register/verify/email")]
+        [AllowAnonymous]
+        public ActionResult VerifyByEmail()
+        {
+            var registration = new UserRegistration();
+            registration.VerificationType = "Email";
+            WorkContext.Form = Form.FromObject(registration);
+            return View("customers/register", WorkContext);
+        }
+
+        [HttpGet("register/verify/phone")]
+        [AllowAnonymous]
+        public ActionResult VerifyByPhone()
+        {
+            var registration = new UserRegistration();
+            registration.VerificationType = "Phone";
+            WorkContext.Form = Form.FromObject(registration);
+            return View("customers/register", WorkContext);
+        }
+
+        private bool IsUsernameAlreadyTaken(string username)
+        {
+            var user = _security.GetUserByName(username);
+            if (user != null && user.UserName == username)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        [HttpPost("register/verify/code")]
+        [AllowAnonymous]
+        public ActionResult SendVerificationCode([FromForm] UserRegistration registration)
+        {
+            WorkContext.Form = Form.FromObject(registration);
+
+            if (!string.IsNullOrEmpty(registration.Email))
+            {
+                if (!IsUsernameAlreadyTaken(registration.Email))
+                {
+                    var password = _security.GenerateOnetimePassword(registration.Email);
+                    NotificationBase notification = new TwoFactorEmailNotification(WorkContext.CurrentStore.Id, WorkContext.CurrentLanguage)
+                    {
+                        Token = password,
+                        Sender = WorkContext.CurrentStore.Email,
+                        Recipient = registration.Email
+                    };
+
+                    var sendingResult = SendNotificationAsync(notification);
+                    registration.VerificationCodeSent = true;
+                    WorkContext.Form = Form.FromObject(registration);
+
+                } else
+                {
+                    var error = new IdentityError() { Code = "email_already_registered", Description = "Email address is already registered." };
+                    WorkContext.Form.Errors.Add(new FormError { Code = error.Code.PascalToKebabCase(), Description = error.Description });
+                }
+            }
+            else if (!string.IsNullOrEmpty(registration.PhoneNumber))
+            {
+                if (!IsUsernameAlreadyTaken(registration.PhoneNumber))
+                {
+                    var password = _security.GenerateOnetimePassword(registration.PhoneNumber);
+                    NotificationBase notification = new TwoFactorSmsNotification(WorkContext.CurrentStore.Id, WorkContext.CurrentLanguage)
+                    {
+                        Token = password,
+                        Recipient = "+66" + registration.PhoneNumber,
+                    };
+
+                    var sendingResult = SendNotificationAsync(notification);
+                    registration.VerificationCodeSent = true;
+                    WorkContext.Form = Form.FromObject(registration);
+
+                } else
+                {
+                    var error = new IdentityError() { Code = "phone_already_registered", Description = "Phone number is already registered." };
+                    WorkContext.Form.Errors.Add(new FormError { Code = error.Code.PascalToKebabCase(), Description = error.Description });
+                }
+                
+            }
+
+            return View("customers/register", WorkContext);
+        }
+
+        [HttpPost("register/verify/validate")]
+        [AllowAnonymous]
+        public ActionResult ValidateVerificationCode([FromForm] UserRegistration registration)
+        {
+            bool isValid = false;
+            if (registration.VerificationCode != null)
+            {
+                // Use email/phone as username
+                // Register by email
+                if (!string.IsNullOrEmpty(registration.Email))
+                {
+                    registration.UserName = registration.Email;
+                }
+                //Register by phone
+                if (!string.IsNullOrEmpty(registration.PhoneNumber))
+                {
+                    registration.UserName = registration.PhoneNumber;
+                    registration.Email = registration.UserName + "@no.email";
+                }
+
+                isValid = _security.ValidateOnetimePassword(registration.UserName, registration.VerificationCode).Value;
+            }
+
+            registration.VerificationSucceeded = isValid;
+
+            //This required for populate fields on form on post-back
+            WorkContext.Form = Form.FromObject(registration);
+
+            if (!isValid)
+            {
+                var error = new IdentityError() { Code = "incorrect_verification_code", Description = "Verification code you entered is incorrect." };
+                WorkContext.Form.Errors.Add(new FormError { Code = error.Code.PascalToKebabCase(), Description = error.Description });
+            }
+
+            
+
+            return View("customers/register", WorkContext);
+        }
+
+        private bool NeedTobeVerified(UserRegistration registration)
+        {
+            if (!registration.VerificationSucceeded)
+            {
+                if (registration.VerificationCodeSent)
+                {
+                    ValidateVerificationCode(registration);
+                }
+                else
+                {
+                    SendVerificationCode(registration);
+                }
+            }
+
+            return !registration.VerificationSucceeded;
         }
 
         [HttpPost("register")]
@@ -107,6 +252,12 @@ namespace VirtoCommerce.Storefront.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register([FromForm] UserRegistration registration)
         {
+            if (NeedTobeVerified(registration))
+            {
+                WorkContext.Form = Form.FromObject(registration);
+                return View("customers/register", WorkContext);
+            }
+
             TryValidateModel(registration);
 
             //This required for populate fields on form on post-back
@@ -163,6 +314,10 @@ namespace VirtoCommerce.Storefront.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
+                        if (string.IsNullOrEmpty(error.Code))
+                        {
+                            error.Code = "registration_unsuccessful";
+                        }
                         WorkContext.Form.Errors.Add(new FormError { Code = error.Code.PascalToKebabCase(), Description = error.Description });
                     }
                 }

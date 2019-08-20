@@ -6,6 +6,29 @@ namespace VirtoCommerce.Storefront.Model.Security
 {
     public partial class UserRegistration 
     {
+        public UserRegistration()
+        {
+            VerificationType = "Phone"; // Phone or Email
+            VerificationCodeSent = false;
+            VerificationSucceeded = false;
+        }
+
+        [FromForm(Name = "customer[verification_succeeded]")]
+        public bool VerificationSucceeded { get; set; }
+
+        [FromForm(Name = "customer[verification_code_sent]")]
+        public bool VerificationCodeSent { get; set; }
+
+        [FromForm(Name = "customer[verification_type]")]
+        public string VerificationType { get; set; }
+
+        [FromForm(Name = "customer[verification_code]")]
+        public string VerificationCode { get; set; }
+
+        [FromForm(Name = "customer[phone_number]")]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
         [FromForm(Name = "customer[photoUrl]")]
         public string PhotoUrl { get; set; }
 
@@ -23,11 +46,9 @@ namespace VirtoCommerce.Storefront.Model.Security
         public string Email { get; set; }
 
         [FromForm(Name = "customer[user_name]")]
-        [Required]
         public string UserName { get; set; }
 
         [FromForm(Name = "customer[password]")]
-        [Required]
         public string Password { get; set; }
 
         [FromForm(Name = "customer[store_id]")]
