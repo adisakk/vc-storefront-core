@@ -1779,8 +1779,8 @@ namespace VirtoCommerce.Storefront.AutoRestClients.PlatformModuleApi
                 _contentDispositionHeaderValue.Name = "uploadedFile";
                 // get filename from stream if it's a file otherwise, just use  'unknown'
                 var _fileStream = uploadedFile as FileStream;
-                var _fileName = (_fileStream != null ? _fileStream.Name : null) ?? "unknown";
-                if(System.Linq.Enumerable.Any(_fileName, c => c > 127) )
+                var _fileName = (_fileStream != null ? _fileStream.Name : null) ?? name;//"unknown";
+                if (System.Linq.Enumerable.Any(_fileName, c => c > 127) )
                 {
                     // non ASCII chars detected, need UTF encoding:
                     _contentDispositionHeaderValue.FileNameStar = _fileName;

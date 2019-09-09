@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VirtoCommerce.Storefront.AutoRestClients.PlatformModuleApi;
@@ -16,6 +19,7 @@ using VirtoCommerce.Storefront.Infrastructure;
 using VirtoCommerce.Storefront.Model;
 using VirtoCommerce.Storefront.Model.Common;
 using VirtoCommerce.Storefront.Model.Common.Events;
+using VirtoCommerce.Storefront.Model.Common.Notifications;
 using VirtoCommerce.Storefront.Model.Customer;
 using VirtoCommerce.Storefront.Model.Customer.Services;
 using VirtoCommerce.Storefront.Model.Security;
@@ -33,9 +37,11 @@ namespace VirtoCommerce.Storefront.Controllers.Api
         private readonly IMemberService _memberService;
         private readonly INotifications _platformNotificationApi;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ISecurity _security;
+        private readonly IAssets _assets;
 
         public ApiAccountController(IWorkContextAccessor workContextAccessor, IStorefrontUrlBuilder urlBuilder, UserManager<User> userManager, SignInManager<User> signInManager, IAuthorizationService authorizationService,
-        IMemberService memberService, IEventPublisher publisher, INotifications platformNotificationApi)
+        IMemberService memberService, IEventPublisher publisher, INotifications platformNotificationApi, ISecurity security, IAssets assets)
             : base(workContextAccessor, urlBuilder)
         {
             _userManager = userManager;
@@ -44,6 +50,8 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             _platformNotificationApi = platformNotificationApi;
             _authorizationService = authorizationService;
             _signInManager = signInManager;
+            _security = security;
+            _assets = assets;
         }
 
         // GET: storefrontapi/account
@@ -355,6 +363,19 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             return result;
         }
 
+        private void SetContactDynamicProperty (string name, string value, Contact contact)
+        {
+            var property = contact.DynamicProperties.FirstOrDefault(x => x.Name == name);
+            if (property.Values.FirstOrDefault() == null)
+            {
+                property.Values.Add(new LocalizedString() { Value = value });
+            }
+            else
+            {
+                property.Values.FirstOrDefault().Value = value;
+            }
+        }
+
         // POST: storefrontapi/account
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -399,6 +420,19 @@ namespace VirtoCommerce.Storefront.Controllers.Api
                     user.Email = userUpdateInfo.Email;
 
                     await _userManager.UpdateAsync(user);
+
+                    if (user.Contact != null && !string.IsNullOrEmpty(user.Contact.Id))
+                    {
+                        var contact = await _memberService.GetContactByIdAsync(user.Contact.Id);
+
+                        SetContactDynamicProperty("Sex", userUpdateInfo.Gender, contact);
+                        SetContactDynamicProperty("Birthday", userUpdateInfo.Birthday, contact);
+                        SetContactDynamicProperty("IdCardNumber", userUpdateInfo.IdCardNumber, contact);
+                        SetContactDynamicProperty("IdCardPhoto", userUpdateInfo.IdCardPhoto, contact);
+                        SetContactDynamicProperty("BankbookPhoto", userUpdateInfo.BankbookPhoto, contact);
+                        
+                        await _memberService.UpdateContactAsync(contact);
+                    }
                 }
             }
             return Ok();
@@ -500,5 +534,111 @@ namespace VirtoCommerce.Storefront.Controllers.Api
 
         }
 
+        // POST: storefrontapi/account/verificationcode
+        [HttpPost("verificationcode")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<SendVerificationCodeResult>> SendVerificationCode([FromBody] SendVerificationCodeModel model)
+        {
+           var result = new SendNotificationResult();
+
+            if (!string.IsNullOrEmpty(model.PhoneNumber))
+            {
+                //Sending OTP to the given phone number via SMS service
+                var number = "+66" + model.PhoneNumber; // TODO Country code should be read from db for specific user location
+                try
+                {
+                    NotificationBase notification = new TwoFactorSmsNotification(WorkContext.CurrentStore.Id, WorkContext.CurrentLanguage)
+                    {
+                        Token = await _security.GenerateOnetimePasswordAsync(model.PhoneNumber),
+                        Recipient = number
+                    };
+
+                    result = await _platformNotificationApi.SendNotificationAsync(notification.ToNotificationDto());
+                }
+                catch
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMessage = "Error occurred while sending SMS notification to "+number;
+                }
+            } else
+            {
+                //Sending OTP to the given email address via SMTP
+                try
+                {
+                    NotificationBase notification = new TwoFactorEmailNotification(WorkContext.CurrentStore.Id, WorkContext.CurrentLanguage)
+                    {
+                        Token = await _security.GenerateOnetimePasswordAsync(model.Email),
+                        Sender = WorkContext.CurrentStore.Email,
+                        Recipient = model.Email
+                    };
+
+                    result = await _platformNotificationApi.SendNotificationAsync(notification.ToNotificationDto());
+                }
+                catch
+                {
+                    result.IsSuccess = false;
+                    result.ErrorMessage = "Error occurred while sending Email notification to "+model.Email;
+                }
+            }
+
+            
+
+            return new SendVerificationCodeResult { Succeeded = true }; //TODO Always return true for testing purpose
+
+        }
+
+        // POST: storefrontapi/account/validatecode
+        [HttpPost("validatecode")]
+        [ValidateAntiForgeryToken]
+        public ActionResult<ValidateVerificationCodeResult> ValidateVerificationCode([FromBody] ValidateVerificationCodeModel model)
+        {
+            var result = false;
+
+            try
+            {
+                result = _security.ValidateOnetimePassword(model.Recipient, model.VerificationCode).Value;
+            }
+            catch
+            {
+                result = false;
+            }
+
+            return new ValidateVerificationCodeResult { Succeeded = result };
+
+        }
+
+        // POST: storefrontapi/account/email
+        [HttpPost("email")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<UpdateEmailAddressResult>> UpdateEmail([FromBody] UpdateEmailAddressModel model)
+        {
+            TryValidateModel(model);
+
+            if (!ModelState.IsValid)
+            {
+                return new UpdateEmailAddressResult { Succeeded = false, Error = "Email address is not valid" };
+            }
+
+            var user = await _userManager.FindByIdAsync(WorkContext.CurrentUser.Id);
+            if (user == null)
+            {
+                return new UpdateEmailAddressResult { Succeeded = false, Error = "Database error" };
+            }
+
+            user.Email = model.Email;
+            var update = await _userManager.UpdateAsync(user);
+
+            return new UpdateEmailAddressResult() { Succeeded = update.Succeeded};
+        }
+
+        // POST: storefrontapi/account/upload
+        [HttpPost("upload")]
+        public async Task<ActionResult<BlobInfo>> Upload([FromForm] IFormFile file)
+        {
+            var folder = "documents/" + WorkContext.CurrentUser.Id;
+
+            var result = await _assets.UploadAssetAsync(folder, null, file.FileName, file.OpenReadStream());
+            return Ok(result);
+        }
     }
 }

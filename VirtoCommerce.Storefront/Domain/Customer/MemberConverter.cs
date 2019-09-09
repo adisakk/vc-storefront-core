@@ -260,6 +260,16 @@ namespace VirtoCommerce.Storefront.Domain
                 retVal.Organizations = customer.OrganizationsIds.Concat(retVal.Organizations ?? Array.Empty<string>()).Distinct().ToArray();
             }
 
+            //Set dynamic properties
+            if (!customer.DynamicProperties.IsNullOrEmpty())
+            {
+                retVal.DynamicProperties = new List<customerDto.DynamicObjectProperty>();
+                foreach (var d in customer.DynamicProperties)
+                {
+                    retVal.DynamicProperties.Add(ToCustomerDynamicPropertyDto(d));
+                }
+            }
+
             return retVal;
         }
 

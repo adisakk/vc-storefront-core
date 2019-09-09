@@ -114,6 +114,7 @@ namespace VirtoCommerce.Storefront.DependencyInjection
             services.AddSingleton<ICatalogModuleSearch>(sp => new CatalogModuleSearch(sp.GetRequiredService<VirtoCommerceCatalogRESTAPIdocumentation>()));
             services.AddAutoRestClient((credentials, httpClient, disposeHttpClient, baseUri) => new VirtoCommercePlatformRESTAPIdocumentation(credentials, httpClient, disposeHttpClient) { BaseUri = baseUri });
             services.AddSingleton<ISecurity>(sp => new Security(sp.GetRequiredService<VirtoCommercePlatformRESTAPIdocumentation>()));
+            services.AddSingleton<IAssets>(sp => new Assets(sp.GetRequiredService<VirtoCommercePlatformRESTAPIdocumentation>()));
             services.AddSingleton<INotifications>(sp => new Notifications(sp.GetRequiredService<VirtoCommercePlatformRESTAPIdocumentation>()));
             services.AddAutoRestClient((credentials, httpClient, disposeHttpClient, baseUri) => new VirtoCommerceCustomerRESTAPIdocumentation(credentials, httpClient, disposeHttpClient) { BaseUri = baseUri });
             services.AddSingleton<ICustomerModule>(sp => new CustomerModule(sp.GetRequiredService<VirtoCommerceCustomerRESTAPIdocumentation>()));
