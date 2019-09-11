@@ -14,8 +14,9 @@ namespace VirtoCommerce.Storefront.Model.Security
 
         public string Birthday { get; set; }
         public string Gender { get; set; }
-        public string IdCardNumber { get; set; }
-        public string IdCardPhoto { get; set; }
+        public string IdNumber { get; set; }
+        public string IdPhoto { get; set; }
         public string BankbookPhoto { get; set; }
+        public string CustomerType { get; set; }
     }
 }

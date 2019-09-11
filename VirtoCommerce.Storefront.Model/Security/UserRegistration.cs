@@ -11,6 +11,7 @@ namespace VirtoCommerce.Storefront.Model.Security
             VerificationType = "Phone"; // Phone or Email
             VerificationCodeSent = false;
             VerificationSucceeded = false;
+            CustomerType = "Individual";
         }
 
         [FromForm(Name = "customer[verification_succeeded]")]
@@ -56,6 +57,9 @@ namespace VirtoCommerce.Storefront.Model.Security
 
         [FromForm(Name = "customer[name]")]
         public string Name { get; set; }
+
+        [FromForm(Name = "customer[customer_type]")]
+        public string CustomerType { get; set; }
 
         [FromForm(Name = "customer[address]")]
         public Address Address { get; set; }

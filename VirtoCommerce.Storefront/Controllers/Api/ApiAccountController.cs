@@ -170,6 +170,22 @@ namespace VirtoCommerce.Storefront.Controllers.Api
                 contact.OrganizationId = registration.OrganizationId;
 
                 var user = registration.ToUser();
+
+                // Save phone number or email if one of them was verified
+                if (!string.IsNullOrEmpty(registration.PhoneNumber))
+                {
+                    user.PhoneNumber = registration.PhoneNumber;
+                    user.PhoneNumberConfirmed = true;
+                }
+                if (!string.IsNullOrEmpty(registration.Email))
+                {
+                    user.Email = registration.Email;
+                    user.EmailConfirmed = true;
+                }
+
+                // Save customer type
+                SetContactDynamicProperty("CustomerType", registration.CustomerType, true, contact);
+
                 user.Contact = contact;
                 user.StoreId = WorkContext.CurrentStore.Id;
 
@@ -363,17 +379,35 @@ namespace VirtoCommerce.Storefront.Controllers.Api
             return result;
         }
 
-        private void SetContactDynamicProperty (string name, string value, Contact contact)
+        private void SetContactDynamicProperty (string name, string value, bool isDictionary, Contact contact)
         {
             var property = contact.DynamicProperties.FirstOrDefault(x => x.Name == name);
-            if (property.Values.FirstOrDefault() == null)
+
+            if (isDictionary)
             {
-                property.Values.Add(new LocalizedString() { Value = value });
+                // TODO Fix adding new dictionary value not persist
+                if (property.DictionaryValues.Any())
+                {
+                    property.DictionaryValues.FirstOrDefault().Name = value;
+                }
+                else
+                {
+                    property.DictionaryValues.Add(new Model.DynamicPropertyDictionaryItem() { Name = value });
+                }
             }
             else
             {
-                property.Values.FirstOrDefault().Value = value;
+                if (property.Values.Any())
+                {
+                    property.Values.FirstOrDefault().Value = value;
+                }
+                else
+                {
+                    property.Values.Add(new LocalizedString() { Value = value });
+                    
+                }
             }
+            
         }
 
         // POST: storefrontapi/account
@@ -425,12 +459,13 @@ namespace VirtoCommerce.Storefront.Controllers.Api
                     {
                         var contact = await _memberService.GetContactByIdAsync(user.Contact.Id);
 
-                        SetContactDynamicProperty("Sex", userUpdateInfo.Gender, contact);
-                        SetContactDynamicProperty("Birthday", userUpdateInfo.Birthday, contact);
-                        SetContactDynamicProperty("IdCardNumber", userUpdateInfo.IdCardNumber, contact);
-                        SetContactDynamicProperty("IdCardPhoto", userUpdateInfo.IdCardPhoto, contact);
-                        SetContactDynamicProperty("BankbookPhoto", userUpdateInfo.BankbookPhoto, contact);
-                        
+                        SetContactDynamicProperty("Sex", userUpdateInfo.Gender, false, contact);
+                        SetContactDynamicProperty("Birthday", userUpdateInfo.Birthday, false, contact);
+                        SetContactDynamicProperty("IdNumber", userUpdateInfo.IdNumber, false, contact);
+                        SetContactDynamicProperty("IdPhoto", userUpdateInfo.IdPhoto, false, contact);
+                        SetContactDynamicProperty("BankbookPhoto", userUpdateInfo.BankbookPhoto, false, contact);
+                        SetContactDynamicProperty("CustomerType", userUpdateInfo.CustomerType, false, contact);
+
                         await _memberService.UpdateContactAsync(contact);
                     }
                 }
