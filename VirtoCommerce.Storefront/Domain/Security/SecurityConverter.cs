@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using VirtoCommerce.Storefront.Model;
 using VirtoCommerce.Storefront.Model.Common;
 using VirtoCommerce.Storefront.Model.Security;
 using dto = VirtoCommerce.Storefront.AutoRestClients.PlatformModuleApi.Models;
@@ -56,6 +57,19 @@ namespace VirtoCommerce.Storefront.Domain.Security
                 Password = registerForm.Password,
                 UserType = "Customer"
             };
+
+            // Save phone number or email if one of them was verified
+            if (!string.IsNullOrEmpty(registerForm.PhoneNumber))
+            {
+                result.PhoneNumber = registerForm.PhoneNumber;
+                result.PhoneNumberConfirmed = true;
+            }
+            if (!string.IsNullOrEmpty(registerForm.Email))
+            {
+                result.Email = registerForm.Email;
+                result.EmailConfirmed = true;
+            }
+
             //Take userName as Email if it valid and Email is not set 
             if (string.IsNullOrEmpty(result.Email))
             {

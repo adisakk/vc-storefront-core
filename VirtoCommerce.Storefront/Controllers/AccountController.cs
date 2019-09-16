@@ -17,6 +17,7 @@ using VirtoCommerce.Storefront.Model;
 using VirtoCommerce.Storefront.Model.Common;
 using VirtoCommerce.Storefront.Model.Common.Events;
 using VirtoCommerce.Storefront.Model.Common.Notifications;
+using VirtoCommerce.Storefront.Model.Customer.Services;
 using VirtoCommerce.Storefront.Model.Security;
 using VirtoCommerce.Storefront.Model.Security.Events;
 using VirtoCommerce.Storefront.Model.Security.Specifications;
@@ -32,6 +33,7 @@ namespace VirtoCommerce.Storefront.Controllers
         private readonly INotifications _platformNotificationApi;
         private readonly IAuthorizationService _authorizationService;
         private readonly ISecurity _security;
+        private readonly IMemberService _memberService;
 
         private readonly string[] _firstNameClaims = { ClaimTypes.GivenName, "urn:github:name", ClaimTypes.Name };
 
@@ -43,7 +45,8 @@ namespace VirtoCommerce.Storefront.Controllers
             INotifications platformNotificationApi,
             IAuthorizationService authorizationService,
             IOptions<StorefrontOptions> options,
-            ISecurity security)
+            ISecurity security,
+            IMemberService memberService)
             : base(workContextAccessor, urlBuilder)
         {
             _signInManager = signInManager;
@@ -52,6 +55,7 @@ namespace VirtoCommerce.Storefront.Controllers
             _platformNotificationApi = platformNotificationApi;
             _authorizationService = authorizationService;
             _security = security;
+            _memberService = memberService;
         }
 
         //GET: /account
@@ -278,6 +282,24 @@ namespace VirtoCommerce.Storefront.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: true);
                     await _publisher.Publish(new UserLoginEvent(WorkContext, user));
+
+                    //Save customer type
+                    if (user.Contact != null && !string.IsNullOrEmpty(user.Contact.Id))
+                    {
+                        var contact = await _memberService.GetContactByIdAsync(user.Contact.Id);
+                        var customerType = contact.DynamicProperties.FirstOrDefault(x => x.Name == "CustomerType");
+
+                        if (customerType.Values.Any())
+                        {
+                            customerType.Values.FirstOrDefault().Value = registration.CustomerType;
+                        }
+                        else
+                        {
+                            customerType.Values.Add(new LocalizedString() { Value = registration.CustomerType });
+                        }
+
+                        await _memberService.UpdateContactAsync(contact);
+                    }
 
                     //Send new user registration notification
                     var registrationEmailNotification = new RegistrationEmailNotification(WorkContext.CurrentStore.Id, WorkContext.CurrentLanguage)
