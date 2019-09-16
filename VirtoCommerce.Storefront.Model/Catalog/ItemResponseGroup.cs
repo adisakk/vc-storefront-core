@@ -63,6 +63,6 @@ namespace VirtoCommerce.Storefront.Model.Catalog
         ItemMedium = ItemSmall | ItemProperties | ItemEditorialReviews,
         ItemLarge = ItemMedium | ItemAssociations | Variations | Inventory | ItemWithPrices | ItemWithDiscounts | ItemWithVendor | ItemWithPaymentPlan,
 
-        Default = ItemSmall | ItemWithPrices | Inventory | ItemWithDiscounts | ItemWithVendor
+        Default = ItemSmall | ItemWithPrices | Inventory | ItemWithDiscounts | ItemWithVendor | ItemProperties // Add ItemProperties for Sharing point
     }
 }
